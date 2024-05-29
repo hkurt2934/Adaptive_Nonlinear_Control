@@ -42,7 +42,6 @@ xlabel('Time(sec)');ylabel('Displacement(m)');
 title('With Transfer Function');
 grid on;
 
-    
 
 
 

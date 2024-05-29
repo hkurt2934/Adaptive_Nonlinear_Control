@@ -1,0 +1,39 @@
+[System]
+Name='my_fuzzy'
+Type='mamdani'
+Version=2.0
+NumInputs=1
+NumOutputs=1
+NumRules=5
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='error'
+Range=[0 0.15]
+NumMFs=5
+MF1='NB':'trimf',[0 0.025 0.05]
+MF2='NS':'trimf',[0.025 0.05 0.075]
+MF3='Z':'trimf',[0.05 0.075 0.1]
+MF4='PS':'trimf',[0.075 0.1 0.125]
+MF5='PB':'trimf',[0.1 0.125 0.15]
+
+[Output1]
+Name='control_output'
+Range=[-900 1200]
+NumMFs=5
+MF1='NB':'trimf',[-900 -550 -200]
+MF2='NS':'trimf',[-550 -200 150]
+MF3='Z':'trimf',[-200 150 500]
+MF4='PS':'trimf',[150 500 850]
+MF5='PB':'trimf',[500 850 1200]
+
+[Rules]
+1, 1 (1) : 1
+2, 2 (1) : 1
+3, 3 (1) : 1
+4, 4 (1) : 1
+5, 5 (1) : 1
