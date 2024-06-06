@@ -3,8 +3,8 @@ clear ; close all ; clc
 % Vehicle
 M   = 300;                         % Sprung mass                   [kg]
 m   = 50;                          % Unsprung mass                 [kg]
-Ks  = 18000;                        % Spring constant suspension    [N/m]
-Kt  = 190000;                       % Spring constant tire          [N/m]
+Ks  = 18000;                       % Spring constant suspension    [N/m]
+Kt  = 190000;                      % Spring constant tire          [N/m]
 Cs  = 2000;                        % Damping constant suspension   [N.s/m]
 
 % Animation model
