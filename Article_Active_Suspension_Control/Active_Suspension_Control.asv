@@ -60,7 +60,10 @@ xlabel('Time(sec)');ylabel('Displacement(m)');
 title('With State Space Equation');
 grid on;
 
-%% Fuzzy:
+% Fuzzy:
+rule_labels = ["NB","NS","Z","PS","PB"];
+
+%%
 clc;
 input_labels = ["Error","Change_In_Error"];
 output_labels = ["Control"];
