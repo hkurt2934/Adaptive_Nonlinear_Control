@@ -1,11 +1,11 @@
 clear ; close all ; clc
 
-% Vehicle
-M   = 300;                         % Sprung mass                   [kg]
-m   = 50;                          % Unsprung mass                 [kg]
-Ks  = 18000;                        % Spring constant suspension    [N/m]
-Kt  = 190000;                       % Spring constant tire          [N/m]
-Cs  = 2000;                        % Damping constant suspension   [N.s/m]
+% Video
+playback_speed = 0.5;               % Speed of playback
+tF      = 2;                        % Final time                    [s]
+fR      = 30/playback_speed;        % Frame rate                    [fps]
+dt      = 1/fR;                     % Time resolution               [s]
+time    = linspace(0,tF,tF*fR);     % Time                          [s]
 
 % Animation model
 L0_s    = 0.8;                      % Spring relaxed suspension     [m]
@@ -14,13 +14,6 @@ h_s     = 0.4;                      % Height of the sprung block    [m]
 h_u     = 0.2;                      % Height of the unsprung block  [m]
 a       = 0.8;                      % Width of the blocks           [m]
 l_win   = 2.2;                      % Length window analysis        [m]
-
-% Video
-playback_speed = 0.5;               % Speed of playback
-tF      = 2;                        % Final time                    [s]
-fR      = 30/playback_speed;        % Frame rate                    [fps]
-dt      = 1/fR;                     % Time resolution               [s]
-time    = linspace(0,tF,tF*fR);     % Time                          [s]
 
 %% Road
 % Stretch 1
@@ -61,29 +54,51 @@ Z_r = [z_r_1 z_r_2(2:end) z_r_3(2:end)];
 % title('Input')
 
 %% Simulation
+% Vehicle
+m_car   = 300;                         % Sprung mass                   [kg]
+m_wheel   = 50;                          % Unsprung mass                 [kg]
+k_car  = 18000;                        % Spring constant suspension    [N/m]
+k_wheel  = 190000;                       % Spring constant tire          [N/m]
+c_car  = 2000;                        % Damping constant suspension   [N.s/m]
+
 %  State space model
-%A = [0 1 0 0;-Ks/m -Cs/m Ks/m Cs/m;0 0 0 1;Ks/M Cs/M -(Ks-Kt)/M -Cs/M];
-A = [ 0               1         0       0       ;
-      -(Ks+Kt)/m      -Cs/m     Ks/m    Cs/m    ;
-      0               0         0       1       ;
-      Ks/M            Cs/M      -Ks/M   -Cs/M   ];
-B = [ 0     ;
-      Kt/m  ;
-      0     ;
-      0     ];
-C = [ 1 0 0 0 ; 
-      0 0 1 0 ];
-D = [0 ; 0];
+
+% A = [0 1 0 0; -(k_car+k_wheel)/m_wheel -c_car/m_wheel k_car/m_wheel c_car/m_wheel;
+%      0 0 0 1; k_car/m_car c_car/m_car -k_car/m_car -c_car/m_car];
+% B = [ 0 0;0 k_wheel/m_wheel;0 0;0 0];
+% C = [ 1 0 0 0 ;0 0 1 0 ];
+% D = [0 0;0 0];
+
+% A = [0 1 0 0; -(k_car+k_wheel)/m_wheel -c_car/m_wheel k_car/m_wheel c_car/m_wheel;
+%      0 0 0 1; k_car/m_car c_car/m_car -k_car/m_car -c_car/m_car];
+% B = [ 0;k_wheel/m_wheel;0;0];
+% C = [ 1 0 0 0 ;0 0 1 0 ];
+% D = [0;0];
+
+A = [ 0 1 0 0; [-k_car -c_car k_car c_car]/m_car ; 0 0 0 1; 
+    [k_car c_car (-k_car-k_wheel) -c_car]/m_wheel];
+B = [ 0 0; 0 1/m_car ; 0 0 ; [-1 (k_wheel)]/m_wheel];
+C = [0 0 1 0 ;1 0 0 0];
+D = [0 0;0 0];
 
 sys = ss(A,B,C,D);
 
+Kp = 0.01;
+Ki = 10;
+Kd = 1000;
+Gc = pid(Ki,Kd);
+
+% feedback closed-up system
+%sys = feedback(Gc*sys_ss, 1);
+sys.E
 % Input
 vel = 2;                            % Longitudinal speed of the car [m/s]
 lon_pos = vel*time;                 % Longitudinal position of the car [m]
 u_vet = interp1(X_r,Z_r,lon_pos)';
+uc = zeros(size(time));
+u_vet1 = [uc; u_vet'];
 time = time';
-disp(size(u_vet) == size(time));
-[y,time,x] = lsim(sys,u_vet,time);
+[y,time,x] = lsim(sys,u_vet1,time);
 
 % Sprung mass absolute vertical position (lower center point)
 z_s = y(:,2) + L0_u + L0_s; 
@@ -103,12 +118,12 @@ z_u = y(:,1) + L0_u;
 color = cool(6); % Colormap
 
 figure
-% set(gcf,'Position',[50 50 1280 720])  % YouTube: 720p
+set(gcf,'Position',[50 50 1280 900])  % YouTube: 720p
 % set(gcf,'Position',[50 50 854 480])   % YouTube: 480p
-set(gcf,'Position',[50 50 640 640])     % Social
+% set(gcf,'Position',[50 50 640 640])     % Social
 
 % Create and open video writer object
-v = VideoWriter('quarter_car_model.avi','Motion JPEG AVI');
+v = VideoWriter('quarter_car_model_0.avi','Motion JPEG AVI');
 v.Quality   = 100;
 % v.FrameRate = fR;
 open(v);
