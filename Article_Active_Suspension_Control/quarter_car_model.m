@@ -1,20 +1,18 @@
 clear ; close all ; clc
 
-<<<<<<< HEAD
 % Video
 playback_speed = 0.5;               % Speed of playback
 tF      = 2;                        % Final time                    [s]
 fR      = 30/playback_speed;        % Frame rate                    [fps]
 dt      = 1/fR;                     % Time resolution               [s]
 time    = linspace(0,tF,tF*fR);     % Time                          [s]
-=======
+
 % Vehicle
 M   = 300;                         % Sprung mass                   [kg]
 m   = 50;                          % Unsprung mass                 [kg]
 Ks  = 18000;                       % Spring constant suspension    [N/m]
 Kt  = 190000;                      % Spring constant tire          [N/m]
 Cs  = 2000;                        % Damping constant suspension   [N.s/m]
->>>>>>> 44483cc7067ba91478ca588287e92d9aaec7183b
 
 % Animation model
 L0_s    = 0.8;                      % Spring relaxed suspension     [m]
@@ -91,15 +89,23 @@ C = [0 0 1 0 ;1 0 0 0];
 D = [0 0;0 0];
 
 sys = ss(A,B,C,D);
+% [b, a] = ss2tf(A,B,C,D,2);
+% sys_tf = tf(b,a);
 
+
+%% PID:
 Kp = 0.01;
 Ki = 10;
 Kd = 1000;
 Gc = pid(Ki,Kd);
-
 % feedback closed-up system
-%sys = feedback(Gc*sys_ss, 1);
-sys.E
+% [b, a] = ss2tf(A,B,C,D,2);
+% sys_tf = tf(b(1,:), a);
+% c_pd = pid(Kp,0,Kd);
+% sys = feedback(sys_tf, 1);
+
+%% Simulation
+% sys.E
 % Input
 vel = 2;                            % Longitudinal speed of the car [m/s]
 lon_pos = vel*time;                 % Longitudinal position of the car [m]
