@@ -1,0 +1,69 @@
+[System]
+Name='my_fuzzy_7'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=25
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='error'
+Range=[-1 1]
+NumMFs=5
+MF1='NB':'trimf',[-1 -1 -0.5]
+MF2='NS':'trimf',[-1 -0.5 -0]
+MF3='Z':'trimf',[-0.5 0 0.5]
+MF4='PS':'trimf',[0 0.5 1]
+MF5='PB':'trimf',[0.5 1 1]
+
+[Input2]
+Name='change_in_error'
+Range=[-0.1 0.1]
+NumMFs=5
+MF1='NB':'trimf',[-0.1 -0.1 -0.05]
+MF2='NS':'trimf',[-0.1 -0.05 0]
+MF3='Z':'trimf',[-0.05 0 0.05]
+MF4='PS':'trimf',[0 0.05 0.1]
+MF5='PB':'trimf',[0.05 0.1 0.1]
+
+[Output1]
+Name='control_output'
+Range=[-4000 4000]
+NumMFs=5
+MF1='NB':'trimf',[-4000 -4000 -2000]
+MF2='NS':'trimf',[-4000 -2000 -0]
+MF3='Z':'trimf',[-2000 0 2000]
+MF4='PS':'trimf',[0 2000 4000]
+MF5='PB':'trimf',[2000 4000 4000]
+
+[Rules]
+1 1, 1 (1) : 1
+1 2, 1 (1) : 1
+1 3, 2 (1) : 1
+1 4, 2 (1) : 1
+1 5, 3 (1) : 1
+2 1, 1 (1) : 1
+2 2, 2 (1) : 1
+2 3, 2 (1) : 1
+2 4, 3 (1) : 1
+2 5, 4 (1) : 1
+3 1, 2 (1) : 1
+3 2, 2 (1) : 1
+3 3, 3 (1) : 1
+3 4, 4 (1) : 1
+3 5, 4 (1) : 1
+4 1, 2 (1) : 1
+4 2, 3 (1) : 1
+4 3, 4 (1) : 1
+4 4, 4 (1) : 1
+4 5, 5 (1) : 1
+5 1, 3 (1) : 1
+5 2, 4 (1) : 1
+5 3, 4 (1) : 1
+5 4, 5 (1) : 1
+5 5, 5 (1) : 1
