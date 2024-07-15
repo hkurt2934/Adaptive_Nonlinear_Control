@@ -22,7 +22,7 @@ plot(accel_1_2, 'LineWidth' , 2, 'Color', 'Red');
 plot(accel_1_4, 'LineWidth' , 2, 'Color', 'Green');
 plot(accel_1_3, 'LineWidth' , 2, 'Color', 'Black');
 plot(accel_1_1, 'LineWidth' , 2, 'Color', 'Blue');
-legend("Triangular Gaussion", "Trapezoidal", "Triangular Equal","Gaussian");
+legend("Triangular Gaussion", "Trapezoidal", "Triangular Equal","Gaussian", 'FontWeight','bold');
 
 accel_2_1 = mf_gauss_raod_2.out.Accleration;
 accel_2_2 = mf_tri_gauss_raod_2.out.Accleration;
@@ -38,7 +38,7 @@ plot(accel_2_2, 'LineWidth' , 2, 'Color', 'Red');
 plot(accel_2_4, 'LineWidth' , 2, 'Color', 'Green');
 plot(accel_2_3, 'LineWidth' , 2, 'Color', 'Black');
 plot(accel_2_1, 'LineWidth' , 2, 'Color', 'Blue');
-legend("Triangular Gaussion", "Trapezoidal", "Triangular Equal","Gaussian");
+legend("Triangular Gaussion", "Trapezoidal", "Triangular Equal","Gaussian", 'FontWeight','bold');
 
 z_1_1 = mf_gauss_raod_1.out.Car_Displacement;
 z_1_2 = mf_tri_gauss_raod_1.out.Car_Displacement;
@@ -56,7 +56,7 @@ plot(road_1, 'LineWidth' , 2, 'Color', 'Yellow');
 plot(z_1_4, 'LineWidth' , 2, 'Color', 'Green');
 plot(z_1_3, 'LineWidth' , 2, 'Color', 'Black');
 plot(z_1_1, 'LineWidth' , 2, 'Color', 'Blue');
-legend("Triangular Gaussion", "Road Disturbance", "Trapezoidal", "Triangular Equal","Gaussian");
+legend("Triangular Gaussion", "Road Disturbance", "Trapezoidal", "Triangular Equal","Gaussian", 'FontWeight','bold');
 xlim([0,10]);
 ylim([-0.05,0.15]);
 
@@ -76,6 +76,19 @@ plot(road_2, 'LineWidth' , 2, 'Color', 'Yellow');
 plot(z_2_4, 'LineWidth' , 2, 'Color', 'Green');
 plot(z_2_3, 'LineWidth' , 2, 'Color', 'Black');
 plot(z_2_1, 'LineWidth' , 2, 'Color', 'Blue');
-legend("Triangular Gaussion", "Road Disturbance", "Trapezoidal", "Triangular Equal","Gaussian");
+legend("Triangular Gaussion", "Road Disturbance", "Trapezoidal", "Triangular Equal","Gaussian", 'FontWeight','bold');
 xlim([0,10]);
 ylim([-0.05,0.05]);
+
+figure(5);
+xlabel('Time (seconds)', 'FontWeight','bold');
+ylabel('Car Body Acceleration (m/s^2)', 'FontWeight','bold');
+grid( 'on');
+hold( 'on');
+plot(accel_2_2, 'LineWidth' , 2, 'Color', 'Red');
+plot(accel_2_4, 'LineWidth' , 2, 'Color', 'Green');
+plot(accel_2_3, 'LineWidth' , 2, 'Color', 'Black');
+plot(accel_2_1, 'LineWidth' , 2, 'Color', 'Blue');
+legend("Triangular Gaussion", "Trapezoidal", "Triangular Equal","Gaussian", 'FontWeight','bold');
+xlim([0,10]);
+ylim([-1,1]);
